@@ -1,0 +1,20 @@
+{
+  "name": "SoundFoundry",
+  "version": "0.0.0",
+  "description": "A simple single-server soundcloud clone.",
+  "main": "server.js",
+  "repository": "",
+  "author": "Andrew Chan <andrewkchan.akc@gmail.com>",
+  "dependencies": {
+    "async": "~0.2.8",
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "express": "~3.2.4",
+    "express-jwt": "^3.4.0",
+    "express-validator": "^2.20.8",
+    "jsonwebtoken": "^7.1.6",
+    "pg": "^6.0.3",
+    "socket.io": "~0.9.14",
+    "swig": "*"
+  }
+}

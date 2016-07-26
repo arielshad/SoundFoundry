@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Your SoundFoundry feed{% endblock %}
+
+{% block content %}
+<p>Upload files here</p>
+<input type="file" id="file-input">
+<div class="btn btn-default" id="file-upload-btn">
+    <span class="glyphicon glyphicon-upload"></span>
+    Upload file
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/upload-app.js"></script>
+{% endblock %}
