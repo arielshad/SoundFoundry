@@ -6,6 +6,15 @@
 var pg = require("pg");
 var connectionString = process.env.DATABASE_URL || "postgres://localhost:5432/ubuntu";
 
+const createSessionQuery =
+    "CREATE TABLE session (" +
+    + "sid varchar NOT NULL COLLATE 'default',"
+	+ "sess json NOT NULL,"
+	+ "expire timestamp(6) NOT NULL"
+    + ")"
+    + "WITH (OIDS=FALSE);"
+    + "ALTER TABLE session ADD CONSTRAINT session_pkey PRIMARY KEY (sid) NOT DEFERRABLE INITIALLY IMMEDIATE;";
+
 const createUsersQuery = 
     "CREATE TABLE users("
     + "id SERIAL PRIMARY KEY"

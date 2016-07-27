@@ -5,13 +5,17 @@
 //
 var http = require('http');
 var path = require('path');
-
-var async = require('async');
 var express = require('express');
-var validator = require("express-validator");
-var bodyParser = require("body-parser");
+var async = require('async');
+
+//
+//global constants.
 //
 global.__base = __dirname + "/";
+global.__secret = require("fs").readFileSync("secret_key", {encoding: "ascii"});
+//
+//
+//
 
 // ## SimpleServer `SimpleServer(obj)`
 //
@@ -21,15 +25,32 @@ global.__base = __dirname + "/";
 var app = express();
 var router = require(__dirname + "/routes");
 
-
+//
+//Initialize app Middleware.
+//
+var validator = require("express-validator");
+var bodyParser = require("body-parser");
+var session = require("express-session");
+var pgSession = require("connect-pg-simple")(session);
 //
 //
-//Initialize app to use various dependencies.
+//Initialize app to use middleware.
 //
 //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(validator());
+//session middleware
+app.use(session({
+  store: new pgSession({
+    pg: require("pg") //use global pg module
+  }),
+  saveUninitialized: true,
+  secret: global.__secret,
+  resave: false,
+  cookie: {httpOnly: true, maxAge: 30*24*60*60*1000} //{httpOnly: true, secure: true, maxAge: 30*24*60*60*1000} //max age of 30 days
+}));
+//create routes with routes/index.js
 app.use(express.static(path.resolve(__dirname, 'static')));
 router.createRoutes(app);
 

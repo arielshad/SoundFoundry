@@ -20,13 +20,13 @@ function checkEmailExists(email, onCompletion){
             values: [email]
         }, function(err, result){
             done(); //release client back to pool
-            onCompletion(result.rows.length !== 0);
+            return onCompletion(result.rows.length !== 0);
         });
     });
 }
 
 //
-//Insert a new user into the database asynchronously, and call onCompletion when finished, with either a JWT indicating successful insertion or an error message.
+//Insert a new user into the database asynchronously, and call onCompletion when finished, with either a userInfo JSON indicating successful insertion or an error message.
 //@return
 //  None
 //@params
@@ -37,18 +37,17 @@ function checkEmailExists(email, onCompletion){
 exports.registerUser = function(email, username, password, onCompletion){
     checkEmailExists(email, function(emailExists){
         if(emailExists){
-            onCompletion({"error": "A user with the given email already exists"});
-            return;
+            return onCompletion({"error": "A user with the given email already exists"});
         }
         bcrypt.genSalt(saltRounds, function(err, salt) {
             if(err){
                 console.error("Error generating salt", err);
-                onCompletion({"error": "Server error"});
+                return onCompletion({"error": "Server error"});
             }
             bcrypt.hash(password, salt, function(err, hash) {
                 if(err){
                     console.error("Error hashing password", err);
-                    onCompletion({"error": "Server error"});
+                    return onCompletion({"error": "Server error"});
                 }
                 
                 //store resulting hash in db along with all other user info
@@ -56,26 +55,24 @@ exports.registerUser = function(email, username, password, onCompletion){
                 db_pool.connect(function(err, client, done){
                     if(err){
                         console.error("Error fetching client from pool", err);
-                        onCompletion({"error": "Database error"});
+                        return onCompletion({"error": "Database error"});
                     }
                     client.query({
                         name: "insert-user",
-                        text:"INSERT INTO users (username, email, passhash, timestamp) VALUES ($1, $2, $3, $4)",
+                        text:"INSERT INTO users (username, email, passhash, timestamp) VALUES ($1, $2, $3, $4) RETURNING id",
                         values: [username, email, hash, Math.round(Date.now()/1000)]
                     }, function(err, result){
                         //call done to release client back to pool
                         done();
                         if(err){
                             console.error("Error inserting new user into database", err);
-                            onCompletion({"error": "Database error"});
+                            return onCompletion({"error": "Database error"});
                         }
-                        onCompletion({
-                            "token": jwt.sign({
-                                iss: "SoundFoundry",
-                                username: username,
-                                email: email
-                            }, "serverSecretKey")
-                        }); //finished all ops successfully, call onCompletion
+                        return onCompletion({
+                            email: email,
+                            username: username,
+                            userid: result.rows[0].id
+                        }); //finished all ops successfully, call onCompletion with user data
                     });
                 });
             });
@@ -86,7 +83,7 @@ exports.registerUser = function(email, username, password, onCompletion){
 
 //
 //Verify a user login (email, password) asynchronously, and call onCompletion with the result of the verification 
-//(either a signed token indicating login success or error message) when finished.
+//(either a user info JSON indicating login success or error message) when finished.
 //@return
 //  None
 //@params
@@ -110,20 +107,23 @@ exports.verifyUser = function(email, password, onCompletion){
             }
             if(result.rows.length === 0){
                 console.log("No user entry found for email " + email);
-                onCompletion({"error": "Invalid email"});
+                return onCompletion({"error": "Invalid email"});
             }
-            if(bcrypt.compare(password, result.rows[0].passhash)){
-                onCompletion({
-                    "token": jwt.sign({
-                        iss: "SoundFoundry",
+            bcrypt.compare(password, result.rows[0].passhash, function(err, res){
+                if(err){
+                    return onCompletion({"error": "Server error"});
+                }
+                if(res){
+                    return onCompletion({
+                        email: email,
                         username: result.rows[0].username,
-                        email: email
-                    }, "serverSecretKey")
-                });
-            }
-            else{
-                onCompletion({"error": "Invalid password"});
-            }
+                        userid: result.rows[0].id
+                    });
+                }
+                else{
+                    return onCompletion({"error": "Invalid password"});
+                }
+            });
         });
     });
 }

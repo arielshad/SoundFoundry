@@ -4,7 +4,7 @@ var audioPlayer = (function() {
     
     if(window.HTMLAudioElement && typeof Audio != "undefined"){
         audioEl = new Audio;
-        audioEl.src = "/media/XQNocZa7cMtzUHVT.mp3";
+        audioEl.src = "";
         audioEl.load();
     }
     

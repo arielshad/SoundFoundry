@@ -15,43 +15,48 @@ exports.registerRoute = function(req, res){
     
     var errors = req.validationErrors();
     if(errors){
-        console.error(errors);
+        //console.error(errors);
         res.json({"errors": errors});
     }
     else{
-        auth.registerUser(req.body.email, req.body.username, req.body.password, function(output){
-            if(output.error){
+        auth.registerUser(req.body.email, req.body.username, req.body.password, function(userInfo){
+            if(userInfo.error){
                 res.json(
                     {"errors": [
-                        {"msg": output.error}
+                        {"msg": userInfo.error}
                     ]}
                 );
+                return;
             }
-            res.json(output); //send auth token if no error
+            //if no error, write userInfo to session data
+            req.session.userInfo = userInfo;
+            res.send(200);
         });
     }
 }
 
 exports.authenticateRoute = function(req, res){
     req.assert("password", "A password is required").notEmpty();
-    req.assert("username", "A username is required").notEmpty();
     req.assert("email", "A valid email is required").notEmpty().isEmail();
     
     var errors = req.validationErrors();
     if(errors){
-        console.error(errors);
+        //console.error(errors);
         res.json({"errors": errors});
     }
     else{
-        auth.verifyUser(req.body.email, req.body.password, function(output){
-            if(output.error){
+        auth.verifyUser(req.body.email, req.body.password, function(userInfo){
+            if(userInfo.error){
                 res.json(
                     {"errors": [
-                        {"msg": output.error}
+                        {"msg": userInfo.error}
                     ]}
                 );
+                return;
             }
-            res.json(output); //send auth token if no error
+            //if no error, write userInfo to session data
+            req.session.userInfo = userInfo;
+            res.send(200);
         });
     }
 }
