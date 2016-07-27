@@ -12,8 +12,6 @@ exports.createRoutes = function(app){
     app.get("/", indexRoute);
     app.get("/upload", uploadRoute);
     
-    app.use(express.json());
-    app.use(express.urlencoded()); //use POST parser on URLs
     //authentication methods
     app.post("/a/authenticate", api.authenticateRoute);
     app.post("/a/register", api.registerRoute);

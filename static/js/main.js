@@ -43,6 +43,9 @@ function submitAuth(){
         password: $("#password-input").val()
     }, function(successData){
         closeLoginWindow();
+        $("#login-btn").hide();
+        $("#register-btn").hide();
+        $("#profile-btn").removeClass("hidden");
     }, function(failData){
         failData.errors.forEach(function(e){
             $("<div></div>", {

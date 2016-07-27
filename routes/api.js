@@ -30,7 +30,7 @@ exports.registerRoute = function(req, res){
             }
             //if no error, write userInfo to session data
             req.session.userInfo = userInfo;
-            res.send(200);
+            res.sendStatus(200);
         });
     }
 }
@@ -56,7 +56,7 @@ exports.authenticateRoute = function(req, res){
             }
             //if no error, write userInfo to session data
             req.session.userInfo = userInfo;
-            res.send(200);
+            res.sendStatus(200);
         });
     }
 }
