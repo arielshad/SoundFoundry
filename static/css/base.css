@@ -31,3 +31,6 @@
     bottom: 0;
     padding: 1em;
 }
+.profile-group {
+    display: none;
+}

@@ -4,10 +4,13 @@ Routes for /api URLs.
 
 */
 
-var auth = require(__base + "auth/authorizer");
+var auth = require(global.__base + "auth/authorizer");
 var expressJWT = require("express-jwt");
 var express = require("express");
 
+//
+//Validates user input, then tells the authorizer to try to add the new user to the database. Response is either an errors object or userInfo {email, username, userid} JSON.
+//
 exports.registerRoute = function(req, res){
     req.assert("password", "A password is required").notEmpty();
     req.assert("username", "A username is required").notEmpty();
@@ -28,9 +31,10 @@ exports.registerRoute = function(req, res){
                 );
                 return;
             }
-            //if no error, write userInfo to session data
+            //if no error, write userInfo {email, username, userid} to session data
             req.session.userInfo = userInfo;
-            res.sendStatus(200);
+            //TODO: ONLY RETURN ESCAPED INPUT TO THE CLIENT!!
+            res.json(userInfo);
         });
     }
 }
@@ -56,7 +60,8 @@ exports.authenticateRoute = function(req, res){
             }
             //if no error, write userInfo to session data
             req.session.userInfo = userInfo;
-            res.sendStatus(200);
+            //TODO: ONLY RETURN ESCAPED INPUT TO THE CLIENT!!
+            res.json(userInfo);
         });
     }
 }

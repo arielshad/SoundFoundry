@@ -25,14 +25,15 @@ function indexRoute(req, res){
     //TODO: get ip for homepage stuff
     
     if(req.session.userInfo){
-        res.render("index", {
-            username: req.session.userInfo.username,
+        res.render("index", 
+                    {userInfo: req.session.userInfo, 
+                    userInfoJSON: function(){
+                        return JSON.stringify(req.session.userInfo);
+                    }
         });
         return;
     }
-    res.render("index", {
-        username: "anon",
-    });
+    res.render("index", {});
 }
 
 function uploadRoute(req, res){

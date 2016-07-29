@@ -32,11 +32,13 @@ var validator = require("express-validator");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var pgSession = require("connect-pg-simple")(session);
+var helmet = require("helmet");
 //
 //
 //Initialize app to use middleware.
 //
 //
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(validator());

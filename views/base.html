@@ -8,6 +8,8 @@
     <script src="/js/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    {% block headScripts %}
+    {% endblock %}
   </head>
   <body>
     <!-- header -->
@@ -35,7 +37,62 @@
                     <div id="register-btn" class="btn btn-info navbar-btn">Create an account</div>
                 </li>
                 <li>
-                    <div id="profile-btn" class="hidden btn btn-info navbar-btn"><span class="glyphicon glyphicon-user"></span><span id="profile-username"></span></div>
+                    <div class="profile-group" id="profile-dropdown">
+                        <button id="profile-dropdown-btn" class="btn btn-info navbar-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span id="profile-username"></span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="profile-dropdown-btn">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Likes</a></li>
+                            <li><a href="#">Following</a></li>
+                            <li><a href="#">Groups</a></li>
+                            <li><a href="#">Who to follow</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Tracks</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="profile-group" id="notify-dropdown">
+                        <button id="notify-dropdown-btn" class="btn btn-info navbar-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-bell"></span>
+                            <span id="notify-count"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notify-dropdown-btn">
+                            <li id="notify-empty"><a href="#">You have no notifications.</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="profile-group" id="inbox-dropdown">
+                        <button id="inbox-dropdown-btn" class="btn btn-info navbar-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <span id="inbox-count"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="inbox-dropdown-btn">
+                            <li id="inbox-empty"><a href="#">You have no messages.</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div id="options-dropdown">
+                        <button id="options-dropdown-btn" class="btn btn-info navbar-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-option-horizontal"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="options-dropdown-btn">
+                            <li><a href="#">About Us</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Developers</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Help center</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">Sign out</a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -73,11 +130,25 @@
     </div>
     {% block content %}
     {% endblock %}
+    {% block scripts %}
+    {% endblock %}
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/player.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/ui-profile.js"></script>
+    {% if userInfoJSON %}
+    <script>
+        $(document).ready(function(){
+            $(".modal-overlay").hide().removeClass("hidden");
+            $("#btn-play").click(togglePlay); 
+            App.initialize({
+               uiProfile: uiProfile,
+               userInfo: {{ userInfoJSON() }}
+            });
+        });
+    </script>
+    {% else %}
     <script src="/js/main.js"></script>
-    {% block scripts %}
-    {% endblock %}
+    {% endif %}
   </body>
 </html>

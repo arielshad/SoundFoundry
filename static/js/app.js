@@ -1,4 +1,4 @@
-var App = (function(){
+var App = (function($){
     var exports = {};
     var config;
     
@@ -13,18 +13,44 @@ var App = (function(){
             }
         });
     }
+    function initLoggedInUser(data){
+        config.userInfo = data;
+        console.log("Init login user");
+        console.log(config);
+        if(config.uiProfile){
+            console.log("Displaying stuff");
+            config.uiProfile.displayUserInfo(config.userInfo);
+        }
+    }
     
     //public members-------------------------------
+    //
+    //Initializes UI elements with necessary data, logs in user with session ID
+    //
     exports.initialize = function(initConfig){
         config = initConfig;
-    }
+        console.log("init");
+        if(config.userInfo){
+            initLoggedInUser(config.userInfo);
+        }
+    };
     exports.submitAuth = function(input, success, fail){
         if(input.username){
-            tryAuth("/a/register", input, success, fail);
+            tryAuth("/a/register", input, function(data){
+                success(data);
+                initLoggedInUser(data);
+            }, function(data){
+                fail(data);
+            });
         }
         else{
-            tryAuth("/a/authenticate", input, success, fail);
+            tryAuth("/a/authenticate", input, function(data){
+                success(data);
+                initLoggedInUser(data);
+            }, function(data){
+                fail(data);
+            });
         }
-    }
+    };
     return exports;
-})();
+})($);

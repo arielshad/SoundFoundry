@@ -3,7 +3,9 @@
 {% block title %}Your SoundFoundry feed{% endblock %}
 
 {% block content %}
-<p id="welcome-text">Welcome {{username}}!</p>
+{% if userInfo.username %}
+<p id="welcome-text">Welcome {{userInfo.username}}!</p>
+{% endif %}
 <ul class="infinite-list hidden">
   <li class="infinite-list-item">
     <div class="post-container">
