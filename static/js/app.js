@@ -15,10 +15,8 @@ var App = (function($){
     }
     function initLoggedInUser(data){
         config.userInfo = data;
-        console.log("Init login user");
         console.log(config);
         if(config.uiProfile){
-            console.log("Displaying stuff");
             config.uiProfile.displayUserInfo(config.userInfo);
         }
     }

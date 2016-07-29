@@ -130,25 +130,27 @@
     </div>
     {% block content %}
     {% endblock %}
-    {% block scripts %}
-    {% endblock %}
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/player.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/ui-profile.js"></script>
-    {% if userInfoJSON %}
+    <script src="/js/ui-content.js"></script>
+    
+    {% block scripts %}
+    {% endblock %}
+    
     <script>
         $(document).ready(function(){
             $(".modal-overlay").hide().removeClass("hidden");
             $("#btn-play").click(togglePlay); 
             App.initialize({
                uiProfile: uiProfile,
-               userInfo: {{ userInfoJSON() }}
+               uiContent: uiContent,
+               userInfo: {{ userInfoJSON() }},
+               audioPlayer: audioPlayer
             });
         });
     </script>
-    {% else %}
-    <script src="/js/main.js"></script>
-    {% endif %}
+
   </body>
 </html>

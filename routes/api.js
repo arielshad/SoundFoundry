@@ -6,7 +6,7 @@ Routes for /api URLs.
 
 var auth = require(global.__base + "auth/authorizer");
 var expressJWT = require("express-jwt");
-var express = require("express");
+
 
 //
 //Validates user input, then tells the authorizer to try to add the new user to the database. Response is either an errors object or userInfo {email, username, userid} JSON.
@@ -64,4 +64,10 @@ exports.authenticateRoute = function(req, res){
             res.json(userInfo);
         });
     }
+}
+
+exports.uploadFileRoute = function(req, res){
+    console.log("File uploaded");
+    console.log(req.file.originalname, req.file.size);
+    res.sendStatus(200);
 }
