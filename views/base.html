@@ -90,7 +90,7 @@
                             <li><a href="#">Help center</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Settings</a></li>
-                            <li><a href="#">Sign out</a></li>
+                            <li><a href="#" id="logout-btn">Sign out</a></li>
                         </ul>
                     </div>
                 </li>
@@ -143,7 +143,7 @@
         $(document).ready(function(){
             $(".modal-overlay").hide().removeClass("hidden");
             $("#btn-play").click(togglePlay); 
-            App.initialize({
+            window.App.initialize({
                uiProfile: uiProfile,
                uiContent: uiContent,
                userInfo: {{ userInfoJSON() }},

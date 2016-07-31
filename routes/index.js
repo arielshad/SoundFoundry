@@ -9,6 +9,7 @@ var api = require(global.__base + "routes/api");
 var expressJWT = require("express-jwt");
 var multer = require("multer");
 var upload = multer({dest: "uploads/", 
+                    fileFilter: require(global.__base + "mediafs/filefilter"),
                     limits: {fileSize: 2500000}});
 var express = require("express");
 
@@ -19,6 +20,7 @@ exports.createRoutes = function(app){
     //authentication methods
     app.post("/a/authenticate", api.authenticateRoute);
     app.post("/a/register", api.registerRoute);
+    app.post("/a/logout", api.logoutRoute);
     
     app.post("/upload", upload.single("file"), api.uploadFileRoute);
     

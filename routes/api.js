@@ -66,6 +66,19 @@ exports.authenticateRoute = function(req, res){
     }
 }
 
+//
+//Validate that the user is currently signed in with valid cookie, then destroy session if so
+//
+exports.logoutRoute = function(req, res){
+    if(req.session.userInfo){
+        req.session.destroy();
+        res.sendStatus(200);
+    }
+    else{
+        res.json({"errors": [{"msg": "User not currently logged in"}]});
+    }
+}
+
 exports.uploadFileRoute = function(req, res){
     console.log("File uploaded");
     console.log(req.file.originalname, req.file.size);

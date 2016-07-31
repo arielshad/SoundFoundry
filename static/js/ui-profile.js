@@ -29,6 +29,11 @@
     }
     
     function submitAuth(){
+        console.log("my app is definitely ", app, "the windows app is ", window.App);
+        console.log("my app config", app.getConfig());
+        console.log("windows app config", window.App.getConfig());
+        console.log("my app is equal", app === window.App);
+        app.printConfig();
         app.submitAuth({
             email: $("#email-input").val(),
             username: $("#username-input").val(),
@@ -48,6 +53,11 @@
     $("#login-btn").click(openLoginWindow);
     $("#register-btn").click(openRegisterWindow);
     $("#continue-btn").click(submitAuth);
+    app.printConfig();
+    console.log("my app is equal", app === window.App);
+    window.App["WHYWONTTHISBULLSHITWORK"] = {"ebebebe": "doodoo"};
+    console.log("Tried changing window app, so now is", app === window.App);
+    console.log("Even though myapp is ", app, "window.App is", window.App);
 })(App, $);
 
 var uiProfile = (function($){
@@ -60,6 +70,11 @@ var uiProfile = (function($){
        if(userInfo.username){
             $("#profile-username").text(userInfo.username);
        }
+   };
+   exports.initializeFunctions = function(btnFunctions){
+       $("#logout-btn").click(function(){
+           btnFunctions.logout();
+       });
    };
    return exports;
 })($);

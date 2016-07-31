@@ -1,9 +1,8 @@
-var App = (function($){
+window.App = (function($){
     var exports = {};
     var config;
     
     function tryAuth(url, input, success, fail){
-        console.log(input);
         $.post(url, input, function(data){
             if(data["errors"]){
                 fail(data);
@@ -14,10 +13,27 @@ var App = (function($){
         });
     }
     function initLoggedInUser(data){
+        console.log("initLoggedInUser data", data);
         config.userInfo = data;
-        console.log(config);
         if(config.uiProfile){
             config.uiProfile.displayUserInfo(config.userInfo);
+        }
+    }
+    function userLogout(){
+        if(config.userInfo){
+            $.post("/a/logout", config.userInfo, function(data){
+                if(data["errors"]){
+                    console.error("Could not logout user " + config.userInfo.email);
+                }
+                else{
+                    //TODO: proper logout redirection
+                    config.userInfo = null;
+                    window.location = "/";
+                }
+            });
+        }
+        else{
+            console.error("User tried logging out before being logged in");
         }
     }
     
@@ -27,12 +43,20 @@ var App = (function($){
     //
     exports.initialize = function(initConfig){
         config = initConfig;
-        console.log("init");
+        console.log("init", config);
         if(config.userInfo){
             initLoggedInUser(config.userInfo);
         }
+        if(config.uiProfile){
+            config.uiProfile.initializeFunctions({
+                logout: userLogout
+            });
+        }
+        console.log("asaa", config);
+        console.log(this);
     };
     exports.submitAuth = function(input, success, fail){
+        console.log("Submitting auth...", config);
         if(input.username){
             tryAuth("/a/register", input, function(data){
                 success(data);
@@ -50,5 +74,11 @@ var App = (function($){
             });
         }
     };
+    exports.printConfig = function(){
+        console.log(config);
+    };
+    exports.getConfig = function(){
+        return config;
+    }
     return exports;
 })($);
