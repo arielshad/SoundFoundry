@@ -1,4 +1,4 @@
-var db_pooler = require(__base + "db_pool");
+var db_pooler = require(global.__base + "db_pooler");
 var jwt = require("jsonwebtoken");
 
 var bcrypt = require("bcrypt");
