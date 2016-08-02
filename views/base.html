@@ -6,8 +6,8 @@
     <!--<link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">-->
     <script src="/js/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/base.css">
     {% block headScripts %}
     {% endblock %}
   </head>
@@ -128,8 +128,10 @@
             </ul>
         </div>
     </div>
-    {% block content %}
-    {% endblock %}
+    <div class="container content">
+        {% block content %}
+        {% endblock %}
+    </div>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/player.js"></script>
     <script src="/js/app.js"></script>
@@ -143,7 +145,7 @@
         $(document).ready(function(){
             $(".modal-overlay").hide().removeClass("hidden");
             $("#btn-play").click(togglePlay); 
-            window.App.initialize({
+            App.initialize({
                uiProfile: uiProfile,
                uiContent: uiContent,
                userInfo: {{ userInfoJSON() }},

@@ -127,3 +127,14 @@ exports.verifyUser = function(email, password, onCompletion){
         });
     });
 }
+
+//
+//Verify that the session referenced by a page request corresponds to a logged in user.
+//@return
+//  True if the session corresponds to a logged in user. False if no such user exists.
+//@params
+//  -session        req.session object from expression-session
+//
+exports.sessionIsLoggedIn = function(session){
+    return !!session.userInfo;
+}

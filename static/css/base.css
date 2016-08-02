@@ -34,3 +34,16 @@
 .profile-group {
     display: none;
 }
+body {
+    background-color: #f0f0f0;
+}
+.content {
+    background-color: #fff;
+    padding: 2em;
+}
+.infinite-list {
+    display: none;
+}
+#base-playlist-container, #base-song-container {
+    display: none;
+}

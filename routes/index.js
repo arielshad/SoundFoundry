@@ -5,6 +5,7 @@ Also applies single-route middleware where necessary.
 
 */
 
+var auth = require(global.__base + "routes/auth");
 var api = require(global.__base + "routes/api");
 var expressJWT = require("express-jwt");
 var multer = require("multer");
@@ -18,9 +19,9 @@ exports.createRoutes = function(app){
     app.get("/upload", uploadRoute);
     
     //authentication methods
-    app.post("/a/authenticate", api.authenticateRoute);
-    app.post("/a/register", api.registerRoute);
-    app.post("/a/logout", api.logoutRoute);
+    app.post("/a/authenticate", auth.authenticateRoute);
+    app.post("/a/register", auth.registerRoute);
+    app.post("/a/logout", auth.logoutRoute);
     
     app.post("/upload", upload.single("file"), api.uploadFileRoute);
     
@@ -35,7 +36,7 @@ function indexRoute(req, res){
     res.render("index", 
                 {userInfo: req.session.userInfo, 
                 userInfoJSON: function(){
-                    if(req.session.userInfo){
+                    if(auth.reqIsLoggedIn(req)){
                         return JSON.stringify(req.session.userInfo);
                     }
                     return "null"
@@ -49,7 +50,7 @@ function uploadRoute(req, res){
     res.render("upload", 
                 {userInfo: req.session.userInfo, 
                 userInfoJSON: function(){
-                    if(req.session.userInfo){
+                    if(auth.reqIsLoggedIn(req)){
                         return JSON.stringify(req.session.userInfo);
                     }
                     return "null"
