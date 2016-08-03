@@ -10,24 +10,26 @@ var api = require(global.__base + "routes/api");
 var expressJWT = require("express-jwt");
 var multer = require("multer");
 var storage = multer.diskStorage({
-    filename: api.handleUpload
+    filename: api.handleUpload,
+    destination: "uploads/"
 });
 var upload = multer({
-    dest: "uploads/", 
     fileFilter: require(global.__base + "mediafs/filefilter"),
     storage: storage,
-    limits: {fileSize: 2500000}
+    limits: {fileSize: 50000000}
 });
 var express = require("express");
 
 exports.createRoutes = function(app){
     app.get("/", indexRoute);
     app.get("/upload", uploadRoute);
+    app.get("/feed", api.getFeedRoute);
     
     //authentication methods
     app.post("/a/authenticate", auth.authenticateRoute);
     app.post("/a/register", auth.registerRoute);
     app.post("/a/logout", auth.logoutRoute);
+    app.post("/a/getstreamtoken", auth.reqSongStreamToken);
     
     app.post("/upload", upload.single("file"), api.uploadFileRoute);
     

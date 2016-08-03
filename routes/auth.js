@@ -83,3 +83,9 @@ exports.reqIsLoggedIn = function(req){
     }
     return false;
 }
+
+exports.reqSongStreamToken = function(req, res){
+    res.json({
+        "token": auth.getSongStreamToken()
+    });
+}

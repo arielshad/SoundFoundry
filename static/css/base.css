@@ -47,3 +47,9 @@ body {
 #base-playlist-container, #base-song-container {
     display: none;
 }
+.btn > a {
+    color: #fff;
+}
+.btn > a:hover {
+    text-decoration: none;
+}

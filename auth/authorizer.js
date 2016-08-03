@@ -138,3 +138,11 @@ exports.verifyUser = function(email, password, onCompletion){
 exports.sessionIsLoggedIn = function(session){
     return !!session.userInfo;
 }
+
+exports.getSongStreamToken = function(){
+    return jwt.sign({
+        iss: "SoundFoundry"
+    }, global.__secret, {
+        expiresIn: "3m"
+    });
+}

@@ -53,11 +53,6 @@
     $("#login-btn").click(openLoginWindow);
     $("#register-btn").click(openRegisterWindow);
     $("#continue-btn").click(submitAuth);
-    app.printConfig();
-    console.log("my app is equal", app === window.App);
-    window.App["WHYWONTTHISBULLSHITWORK"] = {"ebebebe": "doodoo"};
-    console.log("Tried changing window app, so now is", app === window.App);
-    console.log("Even though myapp is ", app, "window.App is", window.App);
 })(App, $);
 
 var uiProfile = (function($){

@@ -15,6 +15,9 @@ window.App = (function($){
     function initLoggedInUser(data){
         console.log("initLoggedInUser data", data);
         config.userInfo = data;
+        $.get("/feed", "json", function(data){
+            console.log(data);
+        });
         if(config.uiProfile){
             config.uiProfile.displayUserInfo(config.userInfo);
         }
@@ -52,8 +55,6 @@ window.App = (function($){
                 logout: userLogout
             });
         }
-        console.log("asaa", config);
-        console.log(this);
     };
     exports.submitAuth = function(input, success, fail){
         console.log("Submitting auth...", config);

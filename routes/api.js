@@ -43,7 +43,7 @@ exports.handleUpload = function(req, file, cb){
                 done();
                 return cb(new Error("Error inserting song into postables table"));
             }
-            var postableid = result.id;
+            var postableid = result.rows[0].id;
             var filename = postableid + ".mp3";
             client.query({
                 name: "insert-song",
@@ -75,11 +75,40 @@ exports.getFeedRoute = function(req, res){
     db_pool.connect(function(err, client, done){
         if(err){
            console.error("Error fetching client from pool");
-           res.json({"error":{msg:"server error."}});
+           return res.json({"error":{msg:"server error."}});
         }
         client.query({
             name: "get-all-posts",
-            text: "SELECT * FROM posts"
+            text:   "SELECT " +
+                        "posts.timestamp, " +
+                        "postables.id, " +
+                        "postables.title, " +
+                        "postables.category, " +
+                        "users.id AS userid, " +
+                        "users.username " +
+                    "FROM " +
+                        "posts " +
+                            "INNER JOIN postables " +
+                                "ON (posts.id=postables.id) " +
+                            "INNER JOIN users " +
+                                "ON (posts.userid=users.id)"
+        }, function(err, result){
+            done();
+            if(err){
+                console.error("Error querying all posts", err);
+                return res.json({"error": {"msg": "server error"}});
+            }
+            res.json({"posts": result.rows});
         });
     });
 };
+
+exports.getSongStream = function(req, res){
+    req.assert("songid", "songid missing").notEmpty().isInt();
+    var errors = req.validationErrors();
+    if(errors){
+        //console.error(errors);
+        return res.json({"errors": errors});
+    }
+    //TODO
+}
