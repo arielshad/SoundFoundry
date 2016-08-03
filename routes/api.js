@@ -8,6 +8,7 @@ var expressJWT = require("express-jwt");
 var db_pooler = require(global.__base + "db_pooler");
 var auth = require(global.__base + "routes/auth");
 var async = require("async");
+var fs = require("fs");
 
 //
 //The HTTP reply to a (already handled) file upload
@@ -110,5 +111,15 @@ exports.getSongStream = function(req, res){
         //console.error(errors);
         return res.json({"errors": errors});
     }
-    //TODO
+    
+    var filestream = fs.createReadStream(global.__base + "uploads/" + req.params.songid + ".mp3");
+    filestream.on("open", function(){
+        var stats = fs.statSync(global.__base + "uploads/" + req.params.songid + ".mp3");
+        var fileSizeBytes = stats.size;
+        res.writeHead(200, {
+            "Content-Type": "audio/mpeg",
+            "Content-Length": fileSizeBytes
+        });
+        filestream.pipe(res);
+    });
 }

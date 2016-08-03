@@ -16,7 +16,19 @@ window.App = (function($){
         console.log("initLoggedInUser data", data);
         config.userInfo = data;
         $.get("/feed", "json", function(data){
-            console.log(data);
+            if(config.uiContent){
+                data.posts.forEach(function(post){
+                    var postInfo = {
+                        post: post,
+                        playFunction: function(){
+                            config.audioPlayer.load("/songstream?songid=" + post.id);
+                            config.audioPlayer.play();
+                        }
+                    };
+                    console.log(postInfo);
+                    config.uiContent.appendPost(postInfo);
+                });
+            }
         });
         if(config.uiProfile){
             config.uiProfile.displayUserInfo(config.userInfo);

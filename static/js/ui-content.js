@@ -5,8 +5,8 @@
 var uiContent = (function($){
     
     function updateSong($postContainer, $postContent, postInfo){
-        $postContainer.find(".post-title").text(postInfo.title);
-        $postContainer.find(".post-author").text(postInfo.author);
+        $postContainer.find(".post-title").text(postInfo.post.title);
+        $postContainer.find(".post-author").text(postInfo.post.username);
         $postContent.find(".post-play-btn").click(postInfo.playFunction);
     }
     function updatePlaylist($postContainer, $postContent, postInfo){
@@ -14,10 +14,10 @@ var uiContent = (function($){
     }
     
     var exports = {};
-    exports.displayPost = function(postInfo){
+    exports.appendPost = function(postInfo){
         var $postContainer;
         var $postContent;
-        switch(postInfo.category){
+        switch(postInfo.post.category){
             case 0: //song
                 $postContainer = $("#base-song-container").clone().attr("id", "");
                 $postContent = $postContainer.find(".post-content");
@@ -31,6 +31,12 @@ var uiContent = (function($){
             default:
                 break;
         }
+        $("<li>", {
+            "class": "infinite-list-item"
+        }).appendTo($(".infinite-list")).append($postContainer);
+    }
+    exports.displayPostList = function(){
+        $(".infinite-list").show();
     }
     return exports;
 })($);

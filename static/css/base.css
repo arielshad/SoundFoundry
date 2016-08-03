@@ -41,9 +41,6 @@ body {
     background-color: #fff;
     padding: 2em;
 }
-.infinite-list {
-    display: none;
-}
 #base-playlist-container, #base-song-container {
     display: none;
 }
