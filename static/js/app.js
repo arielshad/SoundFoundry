@@ -1,6 +1,8 @@
 window.App = (function($){
     var exports = {};
     var config;
+    var songQueue = [];
+    var currentSongIndex = 0;
     
     function togglePlay(){
         if(config.audioPlayer){
@@ -31,13 +33,19 @@ window.App = (function($){
             if(config.uiContent){
                 data.posts.forEach(function(post){
                     var postInfo = {
-                        post: post,
+                        post: post, //post metadata, including ID, original poster, etc.
                         clickedPlay: function(){
                             config.audioPlayer.togglePlay("/songstream/" + post.id);
+                            
                             return config.audioPlayer.isPlaying();
                         }
                     };
-                    console.log(postInfo);
+                    //console.log(postInfo);
+                    
+                    //append song to queue
+                    if(post.category === 0){
+                        songQueue.push(post);
+                    }
                     config.uiContent.appendPost(postInfo);
                 });
             }

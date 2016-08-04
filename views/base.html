@@ -165,6 +165,7 @@
     <script src="/js/app.js"></script>
     <script src="/js/ui-profile.js"></script>
     <script src="/js/ui-content.js"></script>
+    <script src="/js/ui-miniplayer.js"></script>
     
     {% block scripts %}
     {% endblock %}
@@ -175,6 +176,7 @@
             App.initialize({
                uiProfile: uiProfile,
                uiContent: uiContent,
+               uiMiniPlayer: uiMiniPlayer,
                userInfo: {{ userInfoJSON() }},
                audioPlayer: audioPlayer
             });

@@ -64,7 +64,7 @@ Miniplayer styles
 */
 
 #mp-container {
-    min-height: 60px;
+    height: 60px;
     background-color: #fff;
     z-index: 3;
     width: 100vw;
@@ -72,15 +72,26 @@ Miniplayer styles
     bottom: 0;
 }
 #mp-info-container {
+    display: inline-block;
+    position: relative;
     width: 35%;
-
+    height: 100%;
+    margin-right: 0;
 }
 #mp-controls {
+    display: inline-block;
+    position: relative;
     width: 30%;
+    height: 100%;
     padding: 0;
+    margin-right: 0;
+    overflow: hidden;
+    text-align: center;
+    line-height: 60px;
 }
 #mp-controls > .btn {
+    position: relative;
     margin: 0 auto;
     top: 50%;
-    transform: translateY(50%);
+    transform: translateY(-50%);
 }
