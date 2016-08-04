@@ -56,3 +56,31 @@ body {
 .infinite-list-item {
     list-style: none;
 }
+
+/*
+
+Miniplayer styles
+
+*/
+
+#mp-container {
+    min-height: 60px;
+    background-color: #fff;
+    z-index: 3;
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+}
+#mp-info-container {
+    width: 35%;
+
+}
+#mp-controls {
+    width: 30%;
+    padding: 0;
+}
+#mp-controls > .btn {
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(50%);
+}

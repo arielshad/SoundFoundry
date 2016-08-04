@@ -37,17 +37,23 @@ var audioPlayer = (function() {
           }
       },
       togglePlay: function(src){
-        if(isPlaying){
+        if(src){
+          if(isPlaying){
+            if(srcString != src){
+              this.load(src);
+              return this.play();
+            }
+            return this.pause();
+          }
           if(srcString != src){
             this.load(src);
-            return this.play();
           }
+          return this.play();
+        }
+        else if(isPlaying){
           return this.pause();
         }
-        if(srcString != src){
-          this.load(src);
-        }
-        this.play();
+        return this.play();
       }
     };
 })();
