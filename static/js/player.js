@@ -1,5 +1,6 @@
 var audioPlayer = (function() {
     var audioEl;
+    var srcString = "";
     var isPlaying = false;
     
     if(window.HTMLAudioElement && typeof Audio != "undefined"){
@@ -11,12 +12,14 @@ var audioPlayer = (function() {
     return {
       play: function(){
           if(audioEl){
+            console.log("played!");
             audioEl.play();
             isPlaying = true;
           }
       },
       pause: function(){
           if(audioEl){
+            console.log("paused!");
             audioEl.pause();
             isPlaying = false;
           }
@@ -25,22 +28,26 @@ var audioPlayer = (function() {
           return isPlaying;
       },
       load: function(src){
-          if(isPlaying){
-            audioEl.pause();
+          if(audioEl){
+            if(isPlaying){
+              audioEl.pause();
+            }
+            audioEl.src = srcString = src;
+            audioEl.load();
           }
-          audioEl.src = src;
-          audioEl.load();
+      },
+      togglePlay: function(src){
+        if(isPlaying){
+          if(srcString != src){
+            this.load(src);
+            return this.play();
+          }
+          return this.pause();
+        }
+        if(srcString != src){
+          this.load(src);
+        }
+        this.play();
       }
     };
 })();
-
-function togglePlay(){
-    if(audioPlayer.isPlaying()){
-        audioPlayer.pause();
-        $("#btn-play").find("span").removeClass("glyphicon-pause").addClass("glyphicon-play");
-    }
-    else{
-        audioPlayer.play();
-        $("#btn-play").find("span").removeClass("glyphicon-play").addClass("glyphicon-pause");
-    }
-}

@@ -24,7 +24,7 @@ exports.createRoutes = function(app){
     app.get("/", indexRoute);
     app.get("/upload", uploadRoute);
     app.get("/feed", api.getFeedRoute);
-    app.post("/songstream", api.getSongStream);
+    app.get("/songstream/:songid", api.getSongStream);
     
     //authentication methods
     app.post("/a/authenticate", auth.authenticateRoute);

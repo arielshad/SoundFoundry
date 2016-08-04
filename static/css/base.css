@@ -50,3 +50,9 @@ body {
 .btn > a:hover {
     text-decoration: none;
 }
+.infinite-list {
+    padding: 0;
+}
+.infinite-list-item {
+    list-style: none;
+}

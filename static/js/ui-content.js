@@ -7,7 +7,13 @@ var uiContent = (function($){
     function updateSong($postContainer, $postContent, postInfo){
         $postContainer.find(".post-title").text(postInfo.post.title);
         $postContainer.find(".post-author").text(postInfo.post.username);
-        $postContent.find(".post-play-btn").click(postInfo.playFunction);
+        $postContent.find(".post-play-btn").click(function(){
+            var isPlaying = postInfo.clickedPlay();
+            $(".post-pause-btn").removeClass(".post-pause-btn").find("span").removeClass("glyphicon-pause").addClass("glyphicon-play");
+            if(isPlaying){
+                $(this).addClass("post-pause-btn").find("span").removeClass("glyphicon-play").addClass("glyphicon-pause");
+            }
+        });
     }
     function updatePlaylist($postContainer, $postContent, postInfo){
         

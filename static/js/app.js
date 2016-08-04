@@ -2,6 +2,18 @@ window.App = (function($){
     var exports = {};
     var config;
     
+    function togglePlay(){
+        if(config.audioPlayer){
+            if(config.audioPlayer.isPlaying()){
+                config.audioPlayer.pause();
+                $("#btn-play").find("span").removeClass("glyphicon-pause").addClass("glyphicon-play");
+            }
+            else{
+                config.audioPlayer.play();
+                $("#btn-play").find("span").removeClass("glyphicon-play").addClass("glyphicon-pause");
+            }
+        }
+    }
     function tryAuth(url, input, success, fail){
         $.post(url, input, function(data){
             if(data["errors"]){
@@ -20,9 +32,9 @@ window.App = (function($){
                 data.posts.forEach(function(post){
                     var postInfo = {
                         post: post,
-                        playFunction: function(){
-                            config.audioPlayer.load("/songstream?songid=" + post.id);
-                            config.audioPlayer.play();
+                        clickedPlay: function(){
+                            config.audioPlayer.togglePlay("/songstream/" + post.id);
+                            return config.audioPlayer.isPlaying();
                         }
                     };
                     console.log(postInfo);

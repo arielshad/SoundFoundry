@@ -29,10 +29,6 @@
     }
     
     function submitAuth(){
-        console.log("my app is definitely ", app, "the windows app is ", window.App);
-        console.log("my app config", app.getConfig());
-        console.log("windows app config", window.App.getConfig());
-        console.log("my app is equal", app === window.App);
         app.printConfig();
         app.submitAuth({
             email: $("#email-input").val(),
