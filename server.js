@@ -54,6 +54,7 @@ app.use(session({
 }));
 //create routes with routes/index.js
 app.use(express.static(path.resolve(__dirname, 'static')));
+app.use(express.static(path.resolve(__dirname, 'client/builds')));
 router.createRoutes(app);
 
 

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Your SoundFoundry feed{% endblock %}
+
+{% block content %}
+{% if userInfo.username %}
+<p id="welcome-text">Welcome {{userInfo.username}}!</p>
+{% endif %}
+
+<ul class="infinite-list">
+  <li class="infinite-list-item hidden">
+    <div class="song-container" id="base-song-container">
+      <div class="post-metadata">
+        <h5 class="post-author"></h5>
+        <h4 class="post-title"></h4>
+      </div>
+      <div class="post-artwork">
+      </div>
+      <div class="post-content">
+        <div class="post-play-btn btn btn-info">
+          <span class="glyphicon glyphicon-play"></span>
+        </div>
+      </div>
+    </div>
+    <div class="playlist-container" id="base-playlist-container">
+      <div class="post-metadata">
+      </div>
+      <div class="post-artwork">
+      </div>
+      <div class="post-content">
+        <div class="post-play-btn btn btn-info">
+          <span class="glyphicon glyphicon-play"></span>
+        </div>
+        <div class="playlist-list-container">
+          <ul class="playlist-list">
+            <li class="playlist-list-item">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
