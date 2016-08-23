@@ -13,7 +13,7 @@ class Content extends React.Component {
     render() {
         return (
             <div className="content">
-                <PostList posts={this.state.posts} />
+                <PostList posts={this.state.posts} appHandleLike={this.props.appHandleLike} />
             </div>
         );
     }

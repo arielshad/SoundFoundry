@@ -55,15 +55,13 @@ app.use(session({
 //create routes with routes/index.js
 app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(express.static(path.resolve(__dirname, 'client/builds')));
+app.use(express.static(path.resolve(__dirname, 'client/img')));
 router.createRoutes(app);
 
 
 //
 //environment var stuff
 //
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "html");
-app.engine("html", require("swig").renderFile);
 
 var listener = app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
   var addr = listener.address();

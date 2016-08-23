@@ -64,7 +64,7 @@ module.exports = {
     entry: [
         //'webpack-dev-server/client?https://0.0.0.0:8080',
         //'webpack/hot/only-dev-server',
-        './src/App.js'
+        './src'
     ],
     devServer: {
         hot: true

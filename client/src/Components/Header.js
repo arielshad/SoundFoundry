@@ -1,23 +1,28 @@
 import React from "react";
 
 class Header extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        
-        this.state = {
-            user: props.initUser
-        };
-    }
     render() {
         return (
             <div className="header">
                 <div className="container">
-                    <span className="logo">
-                        SoundFoundry
-                    </span>
-                    <span className="profile-text">
-                        {this.state.user.username}
-                    </span>
+                    <div className="header-left header-pt">
+                        <div className="logo">
+                            SoundFoundry
+                        </div>
+                    </div>
+                    <div className="header-right header-pt">
+                        <div className="header-btn upload-btn">
+                            <a className="secondary" href="#">
+                            Upload
+                            </a>
+                        </div>
+                        
+                        <div className="header-btn profile-btn">
+                            <a className="primary" href="#">
+                                <span className="icon-user"></span> {this.props.user.username} <span className="icon-circle-down"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

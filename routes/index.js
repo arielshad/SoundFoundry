@@ -21,6 +21,10 @@ var upload = multer({
 var express = require("express");
 
 exports.createRoutes = function(app){
+    app.set("views", global.__base + "client");
+    app.set("view engine", "html");
+    app.engine("html", require("swig").renderFile);
+    
     app.get("/", indexRoute);
     app.get("/upload", uploadRoute);
     app.get("/feed", api.getFeedRoute);
